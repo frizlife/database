@@ -3,7 +3,7 @@ import sqlite3 as lite
 import pandas as pd
 #from collections import defaultdict
 #Hard link to database
-con = lite.connect('C:\Users\lfabrizio\AppData\Local\Continuum\Anaconda\Thinkful\database\getting_started.db')
+con = lite.connect('C:\Users\lfabrizio\AppData\Local\Continuum\Anaconda\Thinkful\database examples\getting_started.db')
 with con:
 	cur = con.cursor()
 	cur.execute('drop table if exists weather;')
@@ -39,9 +39,15 @@ cur.execute("select cities.name, cities.state from cities inner join weather on 
 rows = cur.fetchall()
 cols=[desc[0] for desc in cur.description]
 dfc=pd.DataFrame(rows, columns=cols)
+blanklist=[]
 print ('The cities that are warmest in July are:')
-#print(dfc)
-for dff in dfc:
-	print(dfc.name + ", " + dfc.state)
+for x, y in dfc.iterrows():
+	blanklist.append(dfc.ix[x, 0] + ", "+ dfc.ix[x, 1])
+print blanklist
 
-	
+
+# this is another way to do the above but with index
+#newlist=[]
+#for i in dfc.index:
+#	newlist.append(dfc.ix[i, 0] + ", " + dfc.ix[i, 1])
+#print(newlist)
